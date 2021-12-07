@@ -22,6 +22,12 @@ def start_match(pattern_string, input_string):
             return True
         return False
 
+    if pattern_string.find("?") == 1:
+        if char_match(pattern_string[0], input_string[0]):
+            input_string = input_string[1:]
+        pattern_string = pattern_string[2:]
+        return start_match(pattern_string, input_string)
+
     if char_match(pattern_string[0], input_string[0]):
         return start_match(pattern_string[1:], input_string[1:])
 

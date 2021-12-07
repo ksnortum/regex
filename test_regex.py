@@ -19,11 +19,25 @@ class Test(unittest.TestCase):
         self.assertFalse(start_match("peach", "apple"), "Regex and string different")
 
     def test_full_match(self):
+
+        # Empty regex
+        self.assertTrue(full_match("", "apple"), "Empty regex should return True")
+        self.assertTrue(full_match("", ""), "Empty regex and input strings should return True")
+
+        # Simple matches
         self.assertTrue(full_match("apple", "apple"), "Regex should match itself")
         self.assertTrue(full_match("ap", "apple"), "Regex should match first part of input")
         self.assertTrue(full_match("le", "apple"), "Regex should match last part of input")
         self.assertTrue(full_match("a", "apple"), "Regex should match first char of input")
+        self.assertFalse(full_match("apwle", "apple"), "Regex and pattern don't match")
+        self.assertFalse(full_match("peach", "apple"), "Regex and pattern don't match")
+        self.assertFalse(full_match("peachx", "apple"), "Regex can't be longer than pattern")
+
+        # Wildcard matches
         self.assertTrue(full_match(".", "apple"), "Regex should match wildcard")
+        self.assertTrue(full_match("ap.le", "apple"), "Wildcard in middle of input string")
+
+        # Anchors
         self.assertTrue(full_match("^app", "apple"), "Caret matches start of string")
         self.assertTrue(full_match("^a", "apple"), "Caret matches start of string")
         self.assertTrue(full_match("^apple", "apple pie"), "Caret matches start of string")
@@ -35,17 +49,17 @@ class Test(unittest.TestCase):
         self.assertTrue(full_match(".$", "apple"), "Wildcard and dollar meta characters")
         self.assertTrue(full_match("apple$", "tasty apple"), "Dollar matches end of phrase")
         self.assertTrue(full_match("^apple$", "apple"), "Dollar and caret anchors start and end of word")
-        self.assertTrue(full_match("", ""), "Empty regex and input strings should return True")
-
-        self.assertFalse(full_match("apwle", "apple"), "Regex and pattern don't match")
-        self.assertFalse(full_match("peach", "apple"), "Regex and pattern don't match")
-        self.assertFalse(full_match("peachx", "apple"), "Regex can't be longer than pattern")
         self.assertFalse(full_match("^le", "apple"), "Caret not at the beginning of the input string")
         self.assertFalse(full_match("app$", "apple"), "Dollar anchor in middle of word")
         self.assertFalse(full_match("^apple$", "tasty apple"), "Dollar and caret anchors word in phrase")
         self.assertFalse(full_match("^apple$", "apple pie"), "Dollar and caret anchors word in phrase")
         self.assertFalse(full_match("ap$le", "apple"), "Dollar sign not at end of pattern")
         self.assertFalse(full_match("ap^le", "apple"), "Caret not at beginning of pattern")
+
+        # Repetitions
+        self.assertTrue(full_match("colou?r", "color"), "? matches absent char")
+        self.assertTrue(full_match("colou?r", "colour"), "? matches present char")
+        self.assertFalse(full_match("colou?r", "colouur"), "? matches only one char")
 
 
 if __name__ == '__main__':

@@ -28,14 +28,24 @@ class Test(unittest.TestCase):
         self.assertTrue(full_match("^a", "apple"), "Caret matches start of string")
         self.assertTrue(full_match("^apple", "apple pie"), "Caret matches start of string")
         self.assertTrue(full_match("^", "apple"), "Caret alone matches anything")
-        # self.assertTrue(full_match("le$", "apple"), "Dollar sign matches end of string")
-        # self.assertTrue(full_match("a$", "a"), "Okay for pattern to be longer than input if dollar")
+        self.assertTrue(full_match("le$", "apple"), "Dollar sign matches end of string")
+        self.assertTrue(full_match("a$", "a"), "Okay for pattern to be longer than input if dollar")
+        self.assertTrue(full_match("a$", "ba"), "Dollar sing matches end of longer string ")
         self.assertTrue(full_match("^a", "a"), "Okay for pattern to be longer than input if caret")
+        self.assertTrue(full_match(".$", "apple"), "Wildcard and dollar meta characters")
+        self.assertTrue(full_match("apple$", "tasty apple"), "Dollar matches end of phrase")
+        self.assertTrue(full_match("^apple$", "apple"), "Dollar and caret anchors start and end of word")
+        self.assertTrue(full_match("", ""), "Empty regex and input strings should return True")
 
         self.assertFalse(full_match("apwle", "apple"), "Regex and pattern don't match")
         self.assertFalse(full_match("peach", "apple"), "Regex and pattern don't match")
         self.assertFalse(full_match("peachx", "apple"), "Regex can't be longer than pattern")
         self.assertFalse(full_match("^le", "apple"), "Caret not at the beginning of the input string")
+        self.assertFalse(full_match("app$", "apple"), "Dollar anchor in middle of word")
+        self.assertFalse(full_match("^apple$", "tasty apple"), "Dollar and caret anchors word in phrase")
+        self.assertFalse(full_match("^apple$", "apple pie"), "Dollar and caret anchors word in phrase")
+        self.assertFalse(full_match("ap$le", "apple"), "Dollar sign not at end of pattern")
+        self.assertFalse(full_match("ap^le", "apple"), "Caret not at beginning of pattern")
 
 
 if __name__ == '__main__':

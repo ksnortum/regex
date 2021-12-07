@@ -18,6 +18,8 @@ def start_match(pattern_string, input_string):
         return True
 
     if input_string == "":
+        if pattern_string == "$":
+            return True
         return False
 
     if char_match(pattern_string[0], input_string[0]):
@@ -28,39 +30,18 @@ def start_match(pattern_string, input_string):
 
 # Match a pattern to any length input string
 def full_match(pattern_string, input_string):
-    # if bad_syntax(pattern_string):
-    #     return False
-
-    pattern_len = len(pattern_string)
-    input_len = len(input_string)
-    # if pattern_len > input_len:
-    #     return False
-
     if pattern_string.startswith("^"):
         return start_match(pattern_string[1:], input_string)
 
-    input_index = 0
-    while input_index + pattern_len <= input_len:
+    if pattern_string == "":
+        return True
+
+    for input_index in range(len(input_string)):
         if start_match(pattern_string, input_string[input_index:]):
             return True
-
-        input_index += 1
 
     return False
 
 
-def bad_syntax(pattern_string):
-    rfind_caret = pattern_string.rfind("^")
-    if rfind_caret != -1 and rfind_caret != 0:
-        return False
-
-    find_dollar = pattern_string.find("$")
-    if find_dollar != -1 and find_dollar != len(pattern_string) - 1:
-        return False
-
-    return True
-
-
 if __name__ == '__main__':
-    # print(full_match(*input().split("|")))
-    full_match("a$", "ba")  # testing
+    print(full_match(*input().split("|")))

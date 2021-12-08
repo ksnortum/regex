@@ -1,4 +1,4 @@
-# Regex Engine -- Stage 3
+# Regex Engine -- Stage 5
 
 # Match one pattern character to an input character
 def char_match(pattern_char, input_char):
@@ -25,6 +25,36 @@ def start_match(pattern_string, input_string):
     if pattern_string.find("?") == 1:
         if char_match(pattern_string[0], input_string[0]):
             input_string = input_string[1:]
+        pattern_string = pattern_string[2:]
+        return start_match(pattern_string, input_string)
+
+    if pattern_string.find("*") == 1:
+        # if char_match(pattern_string[0], input_string[0]):
+        #     if pattern_string.startswith(".") \
+        #             and len(pattern_string) >= 3 \
+        #             and char_match(pattern_string[2:3], input_string[0]):
+        #         pass
+        #     else:
+        #         return start_match(pattern_string, input_string[1:])
+        if char_match(pattern_string[0], input_string[0]) \
+                and len(input_string) > 1 \
+                and (not pattern_string.startswith(".")
+                     or len(pattern_string) < 3
+                     or not char_match(pattern_string[2:3], input_string[0])):
+            return start_match(pattern_string, input_string[1:])
+        pattern_string = pattern_string[2:]
+        return start_match(pattern_string, input_string)
+
+    if pattern_string.find("+") == 1:
+        if not char_match(pattern_string[0], input_string[0]):
+            return False
+        if len(input_string) > 1:
+            input_string = input_string[1:]
+            if char_match(pattern_string[0], input_string[0]) \
+                    and (not pattern_string.startswith(".")
+                         or len(pattern_string) < 3
+                         or not char_match(pattern_string[2:3], input_string[0])):
+                return start_match(pattern_string, input_string)
         pattern_string = pattern_string[2:]
         return start_match(pattern_string, input_string)
 

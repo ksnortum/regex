@@ -1,4 +1,5 @@
-# Regex Engine -- Stage 5
+# Regex Engine -- Stage 6
+# Credit to user alcala21 for help cleaning up the code
 
 def start_match(pattern_string, input_string):
     if pattern_string == "":
@@ -6,6 +7,11 @@ def start_match(pattern_string, input_string):
 
     if input_string == "":
         return pattern_string == "$"
+
+    if pattern_string[0] == "\\":
+        if pattern_string[1:2] == input_string[0]:
+            return start_match(pattern_string[2:], input_string[1:])
+        return False  # pattern error or escaped character doesn't match
 
     if pattern_string[0] != input_string[0] and pattern_string[0] != ".":
         if pattern_string[1:2] in ["*", "?"]:

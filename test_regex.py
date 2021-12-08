@@ -3,7 +3,8 @@ from regex import start_match, full_match
 
 
 class Test(unittest.TestCase):
-    
+
+    # Patterns of equal length
     def test_start_match(self):
         self.assertTrue(start_match("apple", "apple"), "Regex should match itself")
         self.assertTrue(start_match(".pple", "apple"), "Wildcard as first character")
@@ -71,6 +72,14 @@ class Test(unittest.TestCase):
         self.assertTrue(full_match("a+", "aaabbb"), "+ matches several characters but not end of string")
         self.assertTrue(full_match("no+", "noooooope"), "literal then + repetition, no match at end")
         self.assertTrue(full_match("^no+", "noooooope"), "^ anchor and + repetition, no match at end")
+
+        # Escaped characters
+        self.assertTrue(full_match("\\.$", "end."), "escaped dot should only match dot")
+        self.assertTrue(full_match("3\\+3", "3+3=6"), "escaped plus should only match plus")
+        self.assertTrue(full_match("\\?", "Is this working?"), "escaped ? should only match ?")
+        self.assertTrue(full_match("\\\\", "\\"), "escaped \\ should only match \\")
+        self.assertFalse(full_match("colou\\?r", "color"), "escaped ? should only match ?")
+        self.assertFalse(full_match("colou\\?r", "colour"), "escaped ? should only match ?")
 
 
 if __name__ == '__main__':

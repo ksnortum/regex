@@ -18,9 +18,7 @@ def start_match(pattern_string, input_string):
         return True
 
     if input_string == "":
-        if pattern_string == "$":
-            return True
-        return False
+        return pattern_string == "$"
 
     if pattern_string.find("?") == 1:
         if char_match(pattern_string[0], input_string[0]):

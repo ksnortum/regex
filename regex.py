@@ -29,13 +29,6 @@ def start_match(pattern_string, input_string):
         return start_match(pattern_string, input_string)
 
     if pattern_string.find("*") == 1:
-        # if char_match(pattern_string[0], input_string[0]):
-        #     if pattern_string.startswith(".") \
-        #             and len(pattern_string) >= 3 \
-        #             and char_match(pattern_string[2:3], input_string[0]):
-        #         pass
-        #     else:
-        #         return start_match(pattern_string, input_string[1:])
         if char_match(pattern_string[0], input_string[0]) \
                 and len(input_string) > 1 \
                 and (not pattern_string.startswith(".")

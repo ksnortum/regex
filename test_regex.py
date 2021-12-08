@@ -1,16 +1,9 @@
 import unittest
-from regex import char_match, start_match, full_match
+from regex import start_match, full_match
 
 
 class Test(unittest.TestCase):
-    def test_char_match(self):
-        self.assertTrue(char_match("a", "a"), "Regex does not match itself")
-        self.assertTrue(char_match(".", "a"), "Regex does not match wildcard")
-        self.assertTrue(char_match("", "a"), "No regex should return True")
-        self.assertTrue(char_match("", ""), "No regex and input string should return True")
-        self.assertFalse(char_match("a", ""), "No input string should return False")
-        self.assertFalse(char_match("a", "b"), "Regex does not math input string should return False")
-
+    
     def test_start_match(self):
         self.assertTrue(start_match("apple", "apple"), "Regex should match itself")
         self.assertTrue(start_match(".pple", "apple"), "Wildcard as first character")
